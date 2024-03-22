@@ -60,10 +60,10 @@ module.exports = (app) => {
       // parse the data to get an array of notes
       let notes = JSON.parse(data);
 
-      // filter out the note with the given ID
+      // Creates a new array without the note that matches the ID
       const filteredNotes = notes.filter((note) => note.id !== noteId);
 
-      // write the updated array back to db.json{
+      // write the updated array back to db.json
       fs.writeFile(
         path.join(__dirname, "../db/db.json"),
         JSON.stringify(filteredNotes, null, 2),
@@ -73,7 +73,7 @@ module.exports = (app) => {
             return res.status(500).send("Error writing notes data");
           }
 
-          // send a successful response
+          // send a successful response aka no content (which is good in this case)
           res.status(204).send();
         }
       );

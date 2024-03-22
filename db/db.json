@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "id": "fe345318-3f57-4c42-92b2-ec5f145a5f01",
+    "title": "Walk Benji",
+    "text": "Take him on the long route"
+  },
+  {
+    "id": "e1ac4b9b-c55d-438b-8baa-77b9be02b5de",
+    "title": "Do the dishes",
+    "text": "Don't forget to wash the wok"
+  },
+  {
+    "id": "937ee867-29b7-49a3-9667-da0eecf1d1ba",
+    "title": "Guitar practice",
+    "text": "Practice open chords"
+  },
+  {
+    "id": "3ed77a87-e2e8-45e7-b658-946bdcd161b3",
+    "title": "Finish Zelda BOTW",
+    "text": "This game rocks"
+  }
+]

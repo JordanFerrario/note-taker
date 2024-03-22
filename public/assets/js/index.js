@@ -18,6 +18,7 @@ const hide = (elem) => {
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
+// Retrieve notes from server
 const getNotes = () =>
   fetch("/api/notes", {
     method: "GET",
@@ -27,16 +28,19 @@ const getNotes = () =>
   })
     .then((response) => {
       if (!response.ok) {
+        // Checks if the response status is not successful. Logs status afterwards.
         console.error(`Server returned status: ${response.status}`);
-        return [];
+        return []; // Then returns an empty array as a fallback
       }
-      return response.json();
+      return response.json(); // Parses JSON content from response body if successful
     })
     .catch((error) => {
+      // Catches any network or fetching errors. Logs error afterwards.
       console.error("Error fetching notes:", error);
-      return [];
+      return []; // Then returns empty array as a fallback
     });
 
+// Save note to server
 const saveNote = (note) =>
   fetch("/api/notes", {
     method: "POST",
@@ -46,19 +50,18 @@ const saveNote = (note) =>
     body: JSON.stringify(note),
   })
     .then((response) => {
+      // Check if the reponse is ok. If not, throw a new error and skip to .catch block
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`); // Error handling
       }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("Note saved successfully:", data); // just logs the data probably don't need this
+      return response.json(); // Parse JSON content from response body if successful
     })
     .catch((error) => {
-      // Handle any errors that occurred during the fetch or data proccessing
+      // Log any network or parsing errors to the console
       console.error("Error saving the note:", error);
     });
 
+// Delete note from server by matching its ID
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
     method: "DELETE",
@@ -67,24 +70,14 @@ const deleteNote = (id) =>
     },
   })
     .then((response) => {
+      // Check if the reponse is ok. If not, throw a new error and skip to .catch block
       if (!response.ok) {
         throw new Error("Network response was not ok.");
       }
-
-      // only attempts to parse JSON if the response is not a 204 No Content
-      if (response.status !== 204) {
-        return response.json();
-      }
-
-      if (response.status === 204) {
-        console.log(`Note deleted successfully: ${id}`);
-      }
     })
     .catch((error) => {
-      console.error(
-        "There has been a problem with your fetch operation:",
-        error
-      );
+      // Log any network or fetch-related errors to the console
+      console.error("There's a problem with the fetch operation:", error);
     });
 
 const renderActiveNote = () => {
@@ -118,7 +111,7 @@ const handleNoteSave = () => {
       renderActiveNote();
     })
     .catch((error) => {
-      console.error("error saving note:", error); // console an error
+      console.error("Error saving note:", error); // Logs error to the console
     });
 };
 
@@ -226,6 +219,7 @@ const getAndRenderNotes = () =>
       console.error("Error fetching and rendering notes:", error);
     });
 
+// Loads buttons after DOM has finished loading only if user is on notes.html page
 document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname === "/notes.html") {
     noteForm = document.querySelector(".note-form");
@@ -236,13 +230,13 @@ document.addEventListener("DOMContentLoaded", () => {
     clearBtn = document.querySelector(".clear-btn");
     noteList = document.querySelectorAll(".list-container .list-group");
 
+    // adds event listeners to buttons
     saveNoteBtn.addEventListener("click", handleNoteSave);
     newNoteBtn.addEventListener("click", handleNewNoteView);
     clearBtn.addEventListener("click", renderActiveNote);
     noteForm.addEventListener("input", handleRenderBtns);
     noteTitle.addEventListener("input", handleRenderBtns);
     noteText.addEventListener("input", handleRenderBtns);
-    // event listener for newNoteBtn
   }
 });
 
