@@ -19,7 +19,11 @@ Are you tired of using a pen and paper to jot down life's tasks? Maybe you're of
 
 ## Screenshot
 
+![A screenshot of the Note Taker App showing its features and usage](./assets/screenshot.gif)
+
 ## Deployed Application
+
+[Click here!](https://another-note-taker-app-d1921e4524cd.herokuapp.com/)
 
 ## Contributing
 
