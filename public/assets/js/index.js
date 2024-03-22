@@ -65,7 +65,27 @@ const deleteNote = (id) =>
     headers: {
       "Content-Type": "application/json",
     },
-  });
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok.");
+      }
+
+      // only attempts to parse JSON if the response is not a 204 No Content
+      if (response.status !== 204) {
+        return response.json();
+      }
+
+      if (response.status === 204) {
+        console.log(`Note deleted successfully: ${id}`);
+      }
+    })
+    .catch((error) => {
+      console.error(
+        "There has been a problem with your fetch operation:",
+        error
+      );
+    });
 
 const renderActiveNote = () => {
   hide(saveNoteBtn);
@@ -190,7 +210,6 @@ const renderNoteList = (notes) => {
   notes.forEach((note) => {
     const li = createLi(note.title);
     li.dataset.note = JSON.stringify(note);
-
     noteListItems.push(li);
   });
 

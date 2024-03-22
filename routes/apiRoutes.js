@@ -46,4 +46,37 @@ module.exports = (app) => {
       );
     });
   });
+
+  // DELETE /api/notes/:id route
+  app.delete("/api/notes/:id", (req, res) => {
+    const noteId = req.params.id; // capture the note ID from the url
+
+    fs.readFile(path.join(__dirname, "../db/db.json"), "utf8", (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error reading notes data");
+      }
+
+      // parse the data to get an array of notes
+      let notes = JSON.parse(data);
+
+      // filter out the note with the given ID
+      const filteredNotes = notes.filter((note) => note.id !== noteId);
+
+      // write the updated array back to db.json{
+      fs.writeFile(
+        path.join(__dirname, "../db/db.json"),
+        JSON.stringify(filteredNotes, null, 2),
+        (err) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).send("Error writing notes data");
+          }
+
+          // send a successful response
+          res.status(204).send();
+        }
+      );
+    });
+  });
 };
